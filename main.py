@@ -54,12 +54,13 @@ if uploaded_file is not None:
                     st.plotly_chart(fig)
 
                 if do_csvs:
-                    csv = df.to_csv(f'{hex(i)}.csv')
-                    with open(f'{hex(i)}.csv', 'rb') as csv:
+                    csvname = f'{uploaded_file.name}_{hex(i)}.csv'
+                    csv = df.to_csv(csvname)
+                    with open(csvname, 'rb') as csv:
                         st.download_button(
-                            label=f'Descargar {hex(i)}.csv',
+                            label=f'Descargar {csvname}',
                             data=csv,
-                            file_name=f'{hex(i)}.csv',
+                            file_name=csvname,
                             mime='text/csv',
                         )
 
