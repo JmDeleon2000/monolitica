@@ -1,6 +1,7 @@
 # app/Dockerfile
 
-FROM python:3.9-slim
+#FROM tensorflow/tensorflow:latest
+FROM python:3.10.9-slim-bullseye
 
 EXPOSE 8501
 
