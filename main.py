@@ -10,7 +10,7 @@ import requests
 st.title('Monolítico')
 
 def shownegative(uploaded_file, img):
-    addr = 'http://localhost:8000'
+    addr = 'negative.ingress.com'
     test_url = addr + '/getNegative'
     
     with (open('pesimo.fix.meh', 'wb')) as file:
