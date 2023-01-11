@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: monolith-ms
-        image: 'jmdeleonpi/stranglerfig_mono:v1'
+        image: 'jmdeleonpi/stranglerfig_mono:v1.1'
         ports:
         - containerPort: 8000
       
