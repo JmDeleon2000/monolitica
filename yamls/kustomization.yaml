@@ -1,0 +1,14 @@
+resources:
+#deployments
+- 'negative-deployment.yaml'
+- 'monolith-deployment.yaml'
+- 'monolithms-deployment.yaml'
+#services
+- 'servicefig.yaml'
+- 'servicemono.yaml'
+- 'servicemonoms.yaml'
+#ingress
+- 'negative-ingress.yaml'
+- 'monolith-ingress.yaml'
+#- 'monolithms-ingress.yaml'
+

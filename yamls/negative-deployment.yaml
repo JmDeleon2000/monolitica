@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: negative-deployment
+  namespace: labstranglerfig
+  labels:
+    app: negative
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: negative
+  template:
+    metadata:
+      labels:
+        app: negative
+    spec:
+      containers:
+      - name: negative
+        image: 'jmdeleonpi/negative:v1'
+        ports:
+        - containerPort: 8501
+      

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mono-service
+  namespace: labstranglerfig
+spec:
+  selector:
+    app: monolith
+  internalTrafficPolicy: Cluster
+  ports:
+    - protocol: TCP
+      port: 8501 
+      targetPort: 8501

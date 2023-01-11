@@ -4,17 +4,36 @@ from PIL import Image, ImageOps
 import matplotlib.pyplot as plt
 import pandas as pd
 import os
+import requests
 
 
 st.title('Monolítico')
 
 def shownegative(uploaded_file, img):
-    #crear el negativo de la imagen
-    imgInv = ImageOps.invert(img)
-    #generar un nombre interno y público para el negativo
-    negativeName = f'{uploaded_file.name}_negativo.png'
-    #guardar el negativo con ese nombre
-    imgInv.save(negativeName)
+    addr = 'http://localhost:8000'
+    test_url = addr + '/getNegative'
+    
+    with (open('pesimo.fix.meh', 'wb')) as file:
+        file.write(uploaded_file.getvalue())
+    
+    with (open('pesimo.fix.meh', 'rb')) as file:
+        my_img = {'image': file}
+        response = requests.post(test_url, files=my_img)
+
+    data = response.text.replace('(',
+     '').replace(')', 
+     ',').replace('[', 
+     '').replace(']', 
+     '').replace('"', 
+     '').split('|')
+    
+    x = data[-1::][0]
+    size = [int(i) for i in x.split(',') if i != '']
+    data.pop()
+    
+    raw = np.array([[int(j) for j in i.split(',') if j != ''] for i in data], dtype=np.uint8).reshape(size[1], size[0], 3)
+    img = Image.fromarray(raw)
+    img.save('Negativo.png')
     
     return imgInv, negativeName
 

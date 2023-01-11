@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: negative-ingress
+  namespace: labstranglerfig
+  #annotations:
+  #  nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  ingressClassName: public
+  rules:
+  - host: negative.ingress.com
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: stranglerfig-service
+            port:
+              number: 8000
