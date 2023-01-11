@@ -8,7 +8,5 @@ resources:
 - 'servicemono.yaml'
 - 'servicemonoms.yaml'
 #ingress
-- 'negative-ingress.yaml'
 - 'monolith-ingress.yaml'
-#- 'monolithms-ingress.yaml'
 
