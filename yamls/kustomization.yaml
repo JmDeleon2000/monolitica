@@ -8,5 +8,5 @@ resources:
 - 'servicemono.yaml'
 - 'servicemonoms.yaml'
 #ingress
-- 'monolith-ingress.yaml'
+- 'stranglerfiglab-ingress.yaml'
 
