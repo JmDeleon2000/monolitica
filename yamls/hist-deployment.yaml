@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: monolith-ms-deployment
+  name: hist-deployment
   namespace: labstranglerfig
   labels:
-    app: monolith-ms
+    app: hist
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: monolith-ms
+      app: hist
   template:
     metadata:
       labels:
-        app: monolith-ms
+        app: hist
     spec:
       containers:
-      - name: monolith-ms
-        image: 'jmdeleonpi/stranglerfig_mono:v1.3'
+      - name: hist
+        image: 'jmdeleonpi/hist:v1'
         ports:
         - containerPort: 8000
       

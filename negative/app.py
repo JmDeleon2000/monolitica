@@ -1,5 +1,5 @@
 import numpy as np
-from flask import Flask, request, send_file, Response, make_response, redirect
+from flask import Flask, request, send_file, make_response
 from PIL import Image, ImageOps
 
 

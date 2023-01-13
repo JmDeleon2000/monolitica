@@ -1,6 +1,6 @@
 import streamlit as st
 import numpy as np
-from PIL import Image, ImageOps
+from PIL import Image
 import matplotlib.pyplot as plt
 import pandas as pd
 import os
@@ -10,7 +10,7 @@ import requests
 st.title('Monolítico')
 
 def shownegative(uploaded_file, img):
-    addr = 'negative.ingress.com'
+    addr = 'http://stranglerfig-service.labstranglerfig.svc.cluster.local:8000'
     test_url = addr + '/getNegative'
     
     with (open('pesimo.fix.meh', 'wb')) as file:
@@ -35,7 +35,7 @@ def shownegative(uploaded_file, img):
     img = Image.fromarray(raw)
     img.save('Negativo.png')
     
-    return imgInv, negativeName
+    return img, 'Negativo.png'
 
 def createCSV(uploaded_file, img):
 

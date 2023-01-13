@@ -20,11 +20,31 @@ spec:
                 number: 8501
     - host: negative.ingress.com
       http:
-      paths:
-      - path: /
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: stranglerfig-service
-            port:
-              number: 8000
+        paths:
+        - path: /
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: stranglerfig-service
+              port:
+                number: 8000
+    - host: hist.ingress.com
+      http:
+        paths:
+        - path: /
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: stranglerhist-service
+              port:
+                number: 8000
+    - host: microservices.ingress.com
+      http:
+        paths:
+        - path: /
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: stranglermono-service
+              port:
+                number: 8501

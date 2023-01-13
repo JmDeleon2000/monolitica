@@ -4,12 +4,14 @@ import requests
 from PIL import Image
 import numpy as np
 
-addr = 'http://localhost:2510'
-test_url = addr + '/getNegative'
+addr = 'http://127.0.0.1:8000'
+test_url = addr + '/getHist'
 
 with (open('Original-standard-test-image-of-Mandrill-also-known-as-Baboon.png', 'rb')) as file:
     my_img = {'image': file}
     response = requests.post(test_url, files=my_img)
+
+
 
 
 
