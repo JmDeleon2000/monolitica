@@ -11,7 +11,7 @@ st.title('Monolítico')
 
 def shownegative(uploaded_file, img):
     addr = 'http://stranglerfig-service.labstranglerfig.svc.cluster.local:8000'
-    test_url = addr + '/getNegative'
+    test_url = addr + '/'
     
     with (open('pesimo.fix.meh', 'wb')) as file:
         file.write(uploaded_file.getvalue())
@@ -20,20 +20,10 @@ def shownegative(uploaded_file, img):
         my_img = {'image': file}
         response = requests.post(test_url, files=my_img)
 
-    data = response.text.replace('(',
-     '').replace(')', 
-     ',').replace('[', 
-     '').replace(']', 
-     '').replace('"', 
-     '').split('|')
-    
-    x = data[-1::][0]
-    size = [int(i) for i in x.split(',') if i != '']
-    data.pop()
-    
-    raw = np.array([[int(j) for j in i.split(',') if j != ''] for i in data], dtype=np.uint8).reshape(size[1], size[0], 3)
-    img = Image.fromarray(raw)
-    img.save('Negativo.png')
+    with open('Negativo.png', 'wb') as f:
+        f.write(response.content)
+
+    img = Image.open('Negativo.png')
     
     return img, 'Negativo.png'
 
@@ -67,19 +57,23 @@ def mandelblend(uploaded_fine, img):
     return blendedImage
 
 #crear los histogramas y guardarlos como un imagen
-def renderHistograms(df):
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 1)
-    ax1.hist(df['Red'],     bins=20, color='red'    )
-    ax2.hist(df['Green'],   bins=20, color='green'  )
-    ax3.hist(df['Blue'],    bins=20, color='blue'   )
-    ax1.set_title('Rojo')
-    ax2.set_title('Verde')
-    ax3.set_title('Azul')
+def renderHistograms(uploaded_file):
+    addr = 'http://stranglerhist-service.labstranglerfig.svc.cluster.local:8000'
+    test_url = addr + '/'
+    
+    with (open('pesimo.fix.meh', 'wb')) as file:
+        file.write(uploaded_file.getvalue())
+    
+    with (open('pesimo.fix.meh', 'rb')) as file:
+        my_img = {'image': file}
+        response = requests.post(test_url, files=my_img)
 
-    fig.tight_layout()
-    fig_name = f'{uploaded_file.name}_fig.png'
-    plt.savefig(fig_name)
-    return fig, fig_name
+    with open('figura.png', 'wb') as f:
+        f.write(response.content)
+
+    img = Image.open('figura.png')
+
+    return img, 'figura.png'
 
 uploaded_file = st.file_uploader("Elija un archivo", type=['.png', '.jpg'])
 
@@ -118,7 +112,7 @@ if uploaded_file is not None:
             df, csvname = createCSV(uploaded_file, img)
 
             if do_hists:
-                fig, fig_name = renderHistograms(df)
+                fig, fig_name = renderHistograms(uploaded_file)
                 st.pyplot(fig)
                 with open(fig_name, 'rb') as file:
                     st.download_button(

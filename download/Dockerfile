@@ -1,5 +1,6 @@
 FROM python:3.10.9-slim-bullseye
 
+
 ENV IMG_VOL /mnt/negatives/
 
 WORKDIR /app

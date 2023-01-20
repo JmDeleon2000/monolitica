@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: negative
-        image: 'jmdeleonpi/negative:v1'
+        image: 'jmdeleonpi/negative:v2'
         ports:
         - containerPort: 8000
       

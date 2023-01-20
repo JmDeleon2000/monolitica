@@ -1,41 +1,47 @@
-import numpy as np
-from flask import Flask, request, send_file, make_response
+import hashlib
+import os
+from flask import Flask, request, send_file, redirect
+
 from PIL import Image, ImageOps
 
 
-from flask import Flask
 
 app = Flask(__name__)
 
+IMG_FOLDER = os.environ['IMG_VOL']
+addr = 'http://download-service.labstranglerfig.svc.cluster.local:8000'
 
-
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def sanity_check():
-    return "<p>Servicio de negativos de imágenes corriendo correctamente</p>"
+    if request.method == 'POST':
+        file = request.files['image']
+        img = Image.open(file.stream).convert(mode='RGB')
 
 
-@app.route("/getNegative", methods=['POST'])
-def MakeNegative():
-    #raw = np.fromstring(request.data, np.uint8).reshape(267,266)
-    #
-    #img = Image.fromarray(raw)
-#
-    #raw.flags.writeable = False
-    file = request.files['image']
-    # Read the image via file.stream
-    img = Image.open(file.stream).convert(mode='RGB')
-    
+        negative = ImageOps.invert(img)
+        negativeName = f'temp_negativo.png'
+        negative.save(negativeName)
 
-    negative = ImageOps.invert(img)
-    negativeName = f'{hash(img.tobytes)}_negativo.png'
-    negative.save(negativeName)
-    
-    out = [f'{str(i)}|' for i in negative.getdata()]
-    out.append(negative.size[0])
-    out.append(negative.size[1])
-    return make_response(out, 200)
 
-    return send_file(negativeName, mimetype='text/png')
+        with open(negativeName, 'rb') as f:
+            hash = hashlib.sha256(f.read()).hexdigest()
+
+
+        negative = Image.open(negativeName)
+        negative.save(f'{IMG_FOLDER}{hash}.png')
+
+        os.remove(negativeName)
+
+        return redirect(f'{addr}/{hash}/download')
+    return '''
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form method=post enctype=multipart/form-data>
+      <input type=file name=image>
+      <input type=submit value=Upload>
+    </form>
+    '''
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=8000)
